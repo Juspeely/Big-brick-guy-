@@ -1,99 +1,98 @@
 // Sample product data
-const products = [
-    {
-        id: 1,
-        name: "Superhero Bundle",
-        category: "superhero",
-        price: 24.99,
-        description: "Custom Batman & Superman minifigures with accessories",
-        rating: "⭐⭐⭐⭐⭐",
-        emoji: "🦸"
-    },
-    {
-        id: 2,
-        name: "Dragon Master",
-        category: "fantasy",
-        price: 19.99,
-        description: "Fantasy warrior with dragon armor and sword",
-        rating: "⭐⭐⭐⭐⭐",
-        emoji: "🐉"
-    },
-    {
-        id: 3,
-        name: "Ninja Warrior",
-        category: "superhero",
-        price: 15.99,
-        description: "Black belt ninja with authentic weapons",
-        rating: "⭐⭐⭐⭐",
-        emoji: "🥷"
-    },
-    {
-        id: 4,
-        name: "Wizard Collection",
-        category: "fantasy",
-        price: 22.99,
-        description: "Powerful wizard with staff and spellbook",
-        rating: "⭐⭐⭐⭐⭐",
-        emoji: "🧙"
-    },
-    {
-        id: 5,
-        name: "Custom Pirate",
-        category: "custom",
-        price: 18.99,
-        description: "Unique pirate captain with custom details",
-        rating: "⭐⭐⭐⭐",
-        emoji: "🏴‍☠️"
-    },
-    {
-        id: 6,
-        name: "Space Explorer",
-        category: "custom",
-        price: 21.99,
-        description: "Futuristic astronaut with advanced suit",
-        rating: "⭐⭐⭐⭐⭐",
-        emoji: "🧑‍🚀"
-    },
-    {
-        id: 7,
-        name: "Medieval Knight",
-        category: "fantasy",
-        price: 20.99,
-        description: "Armored knight with sword and shield",
-        rating: "⭐⭐⭐⭐",
-        emoji: "🛡️"
-    },
-    {
-        id: 8,
-        name: "Superhero Pack",
-        category: "superhero",
-        price: 29.99,
-        description: "3-pack of popular superheroes",
-        rating: "⭐⭐⭐⭐⭐",
-        emoji: "🦹"
-    }
-];
-
+let products = [];
 let cart = [];
 let currentFilter = 'all';
 
 // Initialize the store
 document.addEventListener('DOMContentLoaded', () => {
-    loadProducts('all');
+    loadProductsFromAdmin();
     loadCart();
+    loadSettings();
 });
 
-// Filter and display products
-function filterProducts(category) {
-    currentFilter = category;
-    
-    // Update active filter button
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    event.target.classList.add('active');
-    
-    loadProducts(category);
+// Load products from admin panel
+function loadProductsFromAdmin() {
+    const adminProducts = localStorage.getItem('bigbrickguy_products');
+    if (adminProducts) {
+        products = JSON.parse(adminProducts);
+    } else {
+        // Default products if none in admin
+        products = [
+            {
+                id: 1,
+                name: "Superhero Bundle",
+                category: "superhero",
+                price: 24.99,
+                description: "Custom Batman & Superman minifigures with accessories",
+                rating: "⭐⭐⭐⭐⭐",
+                emoji: "🦸"
+            },
+            {
+                id: 2,
+                name: "Dragon Master",
+                category: "fantasy",
+                price: 19.99,
+                description: "Fantasy warrior with dragon armor and sword",
+                rating: "⭐⭐⭐⭐⭐",
+                emoji: "🐉"
+            },
+            {
+                id: 3,
+                name: "Ninja Warrior",
+                category: "superhero",
+                price: 15.99,
+                description: "Black belt ninja with authentic weapons",
+                rating: "⭐⭐⭐⭐",
+                emoji: "🥷"
+            },
+            {
+                id: 4,
+                name: "Wizard Collection",
+                category: "fantasy",
+                price: 22.99,
+                description: "Powerful wizard with staff and spellbook",
+                rating: "⭐⭐⭐⭐⭐",
+                emoji: "🧙"
+            },
+            {
+                id: 5,
+                name: "Custom Pirate",
+                category: "custom",
+                price: 18.99,
+                description: "Unique pirate captain with custom details",
+                rating: "⭐⭐⭐⭐",
+                emoji: "🏴‍☠️"
+            },
+            {
+                id: 6,
+                name: "Space Explorer",
+                category: "custom",
+                price: 21.99,
+                description: "Futuristic astronaut with advanced suit",
+                rating: "⭐⭐⭐⭐⭐",
+                emoji: "🧑‍🚀"
+            },
+            {
+                id: 7,
+                name: "Medieval Knight",
+                category: "fantasy",
+                price: 20.99,
+                description: "Armored knight with sword and shield",
+                rating: "⭐⭐⭐⭐",
+                emoji: "🛡️"
+            },
+            {
+                id: 8,
+                name: "Superhero Pack",
+                category: "superhero",
+                price: 29.99,
+                description: "3-pack of popular superheroes",
+                rating: "⭐⭐⭐⭐⭐",
+                emoji: "🦹"
+            }
+        ];
+    }
+    loadProducts('all');
 }
 
 // Load and display products
@@ -123,6 +122,19 @@ function loadProducts(category) {
         `;
         productGrid.appendChild(productCard);
     });
+}
+
+// Filter and display products
+function filterProducts(category) {
+    currentFilter = category;
+    
+    // Update active filter button
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    loadProducts(category);
 }
 
 // Add product to cart
@@ -218,6 +230,32 @@ function checkout() {
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
     
+    // Create order object
+    const order = {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        items: cart.map(item => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            emoji: item.emoji
+        })),
+        total: total
+    };
+
+    // Save order to localStorage
+    let orders = [];
+    const savedOrders = localStorage.getItem('bigbrickguy_orders');
+    if (savedOrders) {
+        orders = JSON.parse(savedOrders);
+    }
+    orders.push(order);
+    localStorage.setItem('bigbrickguy_orders', JSON.stringify(orders));
+
+    // Notify admin panel
+    localStorage.setItem('bigbrickguy_order_completed', JSON.stringify(order));
+
     alert(`Thank you for your order!\n\nItems: ${itemCount}\nTotal: $${total.toFixed(2)}\n\nWe'll contact you soon to finalize your custom order.`);
     
     // Clear cart after checkout
@@ -240,6 +278,24 @@ function loadCart() {
         updateCartUI();
     }
 }
+
+// Load settings from admin
+function loadSettings() {
+    const storeName = localStorage.getItem('store_name') || 'Big Brick Guy';
+    const storeDescription = localStorage.getItem('store_description') || 'Premium Hand-Made LEGO Minifigures & Custom Designs';
+    
+    // Update page title if needed
+    document.title = storeName;
+}
+
+// Listen for product updates from admin panel
+window.addEventListener('storage', (e) => {
+    if (e.key === 'bigbrickguy_products_sync') {
+        const updatedProducts = JSON.parse(e.newValue);
+        products = updatedProducts;
+        loadProducts(currentFilter);
+    }
+});
 
 // Smooth scroll for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
