@@ -149,6 +149,21 @@ body {
     background: #f5f5f5;
 }
 
+.image-cell {
+    text-align: center;
+}
+
+.product-thumbnail {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.emoji-display {
+    font-size: 2rem;
+}
+
 .table-actions {
     display: flex;
     gap: 0.5rem;
@@ -330,6 +345,48 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+}
+
+/* Image Upload */
+.image-upload-area {
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    background: #fafafa;
+}
+
+.image-upload-area:hover {
+    border-color: #667eea;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.image-upload-area input[type="file"] {
+    display: none;
+}
+
+.image-upload-area::before {
+    content: "📁 Click to select image or drag and drop";
+    display: block;
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.image-preview {
+    margin-top: 1rem;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .form-actions {
