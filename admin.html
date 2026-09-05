@@ -40,11 +40,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Image</th>
                                 <th>Name</th>
                                 <th>Category</th>
                                 <th>Price</th>
                                 <th>Description</th>
-                                <th>Rating</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -106,7 +106,7 @@
                     </div>
                     <div class="form-group">
                         <label>Store Email</label>
-                        <input type="email" id="store-email" placeholder="hello@bigbrickguy.com" value="hello@bigbrickguy.com">
+                        <input type="email" id="store-email" placeholder="justinmarinco9@gmail.com" value="justinmarinco9@gmail.com">
                     </div>
                     <div class="form-group">
                         <label>Store Description</label>
@@ -157,22 +157,17 @@
                     <textarea id="product-description" required placeholder="Describe your minifigure..."></textarea>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Rating</label>
-                        <select id="product-rating">
-                            <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐ (5 stars)</option>
-                            <option value="⭐⭐⭐⭐">⭐⭐⭐⭐ (4 stars)</option>
-                            <option value="⭐⭐⭐">⭐⭐⭐ (3 stars)</option>
-                            <option value="⭐⭐">⭐⭐ (2 stars)</option>
-                            <option value="⭐">⭐ (1 star)</option>
-                        </select>
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <div class="image-upload-area" onclick="document.getElementById('product-image').click()">
+                        <input type="file" id="product-image" accept="image/*" onchange="previewImage(event)">
+                        <div id="image-preview" class="image-preview"></div>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label>Emoji/Icon</label>
-                        <input type="text" id="product-emoji" placeholder="🦸" maxlength="2">
-                    </div>
+                <div class="form-group">
+                    <label>Emoji/Icon (Optional)</label>
+                    <input type="text" id="product-emoji" placeholder="🦸" maxlength="2">
                 </div>
 
                 <div class="form-actions">
