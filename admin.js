@@ -27,7 +27,7 @@ function loadProducts() {
                 category: "superhero",
                 price: 24.99,
                 description: "Custom Batman & Superman minifigures with accessories",
-                rating: "⭐⭐⭐⭐⭐",
+                image: null,
                 emoji: "🦸"
             },
             {
@@ -36,7 +36,7 @@ function loadProducts() {
                 category: "fantasy",
                 price: 19.99,
                 description: "Fantasy warrior with dragon armor and sword",
-                rating: "⭐⭐⭐⭐⭐",
+                image: null,
                 emoji: "🐉"
             },
             {
@@ -45,7 +45,7 @@ function loadProducts() {
                 category: "superhero",
                 price: 15.99,
                 description: "Black belt ninja with authentic weapons",
-                rating: "⭐⭐⭐⭐",
+                image: null,
                 emoji: "🥷"
             },
             {
@@ -54,7 +54,7 @@ function loadProducts() {
                 category: "fantasy",
                 price: 22.99,
                 description: "Powerful wizard with staff and spellbook",
-                rating: "⭐⭐⭐⭐⭐",
+                image: null,
                 emoji: "🧙"
             },
             {
@@ -63,7 +63,7 @@ function loadProducts() {
                 category: "custom",
                 price: 18.99,
                 description: "Unique pirate captain with custom details",
-                rating: "⭐⭐⭐⭐",
+                image: null,
                 emoji: "🏴‍☠️"
             },
             {
@@ -72,7 +72,7 @@ function loadProducts() {
                 category: "custom",
                 price: 21.99,
                 description: "Futuristic astronaut with advanced suit",
-                rating: "⭐⭐⭐⭐⭐",
+                image: null,
                 emoji: "🧑‍🚀"
             },
             {
@@ -81,7 +81,7 @@ function loadProducts() {
                 category: "fantasy",
                 price: 20.99,
                 description: "Armored knight with sword and shield",
-                rating: "⭐⭐⭐⭐",
+                image: null,
                 emoji: "🛡️"
             },
             {
@@ -90,7 +90,7 @@ function loadProducts() {
                 category: "superhero",
                 price: 29.99,
                 description: "3-pack of popular superheroes",
-                rating: "⭐⭐⭐⭐⭐",
+                image: null,
                 emoji: "🦹"
             }
         ];
@@ -123,13 +123,14 @@ function displayProducts() {
 
     products.forEach(product => {
         const row = document.createElement('tr');
+        const imageDisplay = product.image ? `<img src="${product.image}" alt="${product.name}" class="product-thumbnail">` : `<span class="emoji-display">${product.emoji}</span>`;
         row.innerHTML = `
             <td>#${product.id}</td>
-            <td>${product.emoji} ${product.name}</td>
+            <td class="image-cell">${imageDisplay}</td>
+            <td>${product.name}</td>
             <td><span style="background: #f0f0f0; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem;">${product.category}</span></td>
             <td>$${product.price.toFixed(2)}</td>
             <td>${product.description.substring(0, 30)}...</td>
-            <td>${product.rating}</td>
             <td>
                 <div class="table-actions">
                     <button class="btn-small btn-edit" onclick="editProduct(${product.id})">Edit</button>
@@ -141,12 +142,29 @@ function displayProducts() {
     });
 }
 
+// Preview image
+function previewImage(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('image-preview');
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+            preview.dataset.imageData = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
 // Open add product modal
 function openAddProductModal() {
     editingProductId = null;
     document.getElementById('modal-title').textContent = 'Add New Product';
     document.getElementById('product-form').reset();
     document.getElementById('product-id').value = '';
+    document.getElementById('image-preview').innerHTML = '';
+    document.getElementById('image-preview').dataset.imageData = '';
     document.getElementById('product-modal').classList.add('active');
 }
 
@@ -161,8 +179,17 @@ function editProduct(productId) {
         document.getElementById('product-category').value = product.category;
         document.getElementById('product-price').value = product.price;
         document.getElementById('product-description').value = product.description;
-        document.getElementById('product-rating').value = product.rating;
         document.getElementById('product-emoji').value = product.emoji;
+        
+        const imagePreview = document.getElementById('image-preview');
+        if (product.image) {
+            imagePreview.innerHTML = `<img src="${product.image}" alt="Preview">`;
+            imagePreview.dataset.imageData = product.image;
+        } else {
+            imagePreview.innerHTML = '';
+            imagePreview.dataset.imageData = '';
+        }
+        
         document.getElementById('product-modal').classList.add('active');
     }
 }
@@ -191,8 +218,8 @@ function setupProductForm() {
         const category = document.getElementById('product-category').value;
         const price = parseFloat(document.getElementById('product-price').value);
         const description = document.getElementById('product-description').value;
-        const rating = document.getElementById('product-rating').value;
         const emoji = document.getElementById('product-emoji').value || '🧱';
+        const imageData = document.getElementById('image-preview').dataset.imageData || null;
 
         if (editingProductId) {
             // Update existing product
@@ -202,8 +229,10 @@ function setupProductForm() {
                 product.category = category;
                 product.price = price;
                 product.description = description;
-                product.rating = rating;
                 product.emoji = emoji;
+                if (imageData) {
+                    product.image = imageData;
+                }
             }
         } else {
             // Add new product
@@ -214,8 +243,8 @@ function setupProductForm() {
                 category,
                 price,
                 description,
-                rating,
-                emoji
+                emoji,
+                image: imageData
             });
         }
 
@@ -318,7 +347,7 @@ function switchTab(tabName) {
 // Load settings
 function loadSettings() {
     const storeName = localStorage.getItem('store_name') || 'Big Brick Guy';
-    const storeEmail = localStorage.getItem('store_email') || 'hello@bigbrickguy.com';
+    const storeEmail = localStorage.getItem('store_email') || 'justinmarinco9@gmail.com';
     const storeDescription = localStorage.getItem('store_description') || 'Premium Hand-Made LEGO Minifigures & Custom Designs';
 
     document.getElementById('store-name').value = storeName;
