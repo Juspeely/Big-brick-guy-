@@ -60,4 +60,14 @@ Create an `images/gallery.md` file with your gallery:
 
 ---
 
+## Payment Method
+
+💳 **PayPal**
+
+Interested in purchasing a custom minifigure? Send payments via PayPal!
+
+[Pay with PayPal](https://www.paypal.me/Juspeely)
+
+---
+
 **Get started by creating an `images` folder and adding your first minifigure photo!**
