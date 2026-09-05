@@ -24,7 +24,6 @@ function loadProductsFromAdmin() {
                 category: "superhero",
                 price: 24.99,
                 description: "Custom Batman & Superman minifigures with accessories",
-                rating: "⭐⭐⭐⭐⭐",
                 emoji: "🦸"
             },
             {
@@ -33,7 +32,6 @@ function loadProductsFromAdmin() {
                 category: "fantasy",
                 price: 19.99,
                 description: "Fantasy warrior with dragon armor and sword",
-                rating: "⭐⭐⭐⭐⭐",
                 emoji: "🐉"
             },
             {
@@ -42,7 +40,6 @@ function loadProductsFromAdmin() {
                 category: "superhero",
                 price: 15.99,
                 description: "Black belt ninja with authentic weapons",
-                rating: "⭐⭐⭐⭐",
                 emoji: "🥷"
             },
             {
@@ -51,7 +48,6 @@ function loadProductsFromAdmin() {
                 category: "fantasy",
                 price: 22.99,
                 description: "Powerful wizard with staff and spellbook",
-                rating: "⭐⭐⭐⭐⭐",
                 emoji: "🧙"
             },
             {
@@ -60,7 +56,6 @@ function loadProductsFromAdmin() {
                 category: "custom",
                 price: 18.99,
                 description: "Unique pirate captain with custom details",
-                rating: "⭐⭐⭐⭐",
                 emoji: "🏴‍☠️"
             },
             {
@@ -69,7 +64,6 @@ function loadProductsFromAdmin() {
                 category: "custom",
                 price: 21.99,
                 description: "Futuristic astronaut with advanced suit",
-                rating: "⭐⭐⭐⭐⭐",
                 emoji: "🧑‍🚀"
             },
             {
@@ -78,7 +72,6 @@ function loadProductsFromAdmin() {
                 category: "fantasy",
                 price: 20.99,
                 description: "Armored knight with sword and shield",
-                rating: "⭐⭐⭐⭐",
                 emoji: "🛡️"
             },
             {
@@ -87,7 +80,6 @@ function loadProductsFromAdmin() {
                 category: "superhero",
                 price: 29.99,
                 description: "3-pack of popular superheroes",
-                rating: "⭐⭐⭐⭐⭐",
                 emoji: "🦹"
             }
         ];
@@ -117,7 +109,6 @@ function loadProducts(category) {
                 <div class="product-category">${product.category}</div>
                 <div class="product-price">$${product.price.toFixed(2)}</div>
                 <div class="product-description">${product.description}</div>
-                <div class="product-rating">${product.rating}</div>
                 <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
                     Add to Cart
                 </button>
