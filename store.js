@@ -236,7 +236,12 @@ function checkout() {
     
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-    
+
+    // Open seller's eBay page in a new tab so the buyer can complete the purchase there
+    const ebayUrl = 'https://www.ebay.com/usr/jus_527362';
+    const win = window.open(ebayUrl, '_blank');
+    if (win) try { win.opener = null; } catch (e) { /* ignore */ }
+
     // Create order object
     const order = {
         id: Date.now(),
@@ -263,7 +268,7 @@ function checkout() {
     // Notify admin panel
     localStorage.setItem('bigbrickguy_order_completed', JSON.stringify(order));
 
-    alert(`Thank you for your order!\n\nItems: ${itemCount}\nTotal: $${total.toFixed(2)}\n\nWe'll contact you soon to finalize your custom order.`);
+    alert(`Thank you for your order!\n\nItems: ${itemCount}\nTotal: $${total.toFixed(2)}\n\nWe've opened the seller's eBay page so you can complete the purchase there.`);
     
     // Clear cart after checkout
     cart = [];
