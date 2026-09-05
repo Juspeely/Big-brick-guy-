@@ -92,12 +92,15 @@ function loadProductsFromAdmin() {
             }
         ];
     }
-    loadProducts('all');
+    // Render products using the current filter
+    loadProducts(currentFilter);
 }
 
 // Load and display products
 function loadProducts(category) {
     const productGrid = document.getElementById('product-grid');
+    if (!productGrid) return;
+
     productGrid.innerHTML = '';
     
     const filteredProducts = category === 'all' 
@@ -128,11 +131,16 @@ function loadProducts(category) {
 function filterProducts(category) {
     currentFilter = category;
     
-    // Update active filter button
+    // Update active filter button without relying on an event object
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
+        // Try to detect the matching button by looking at its onclick attribute or data-category if present
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        const dataCategory = btn.getAttribute('data-category') || '';
+        if (dataCategory === category || onclickAttr.includes(`'${category}'`)) {
+            btn.classList.add('active');
+        }
     });
-    event.target.classList.add('active');
     
     loadProducts(category);
 }
@@ -140,6 +148,11 @@ function filterProducts(category) {
 // Add product to cart
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
+    if (!product) {
+        alert('Product not found');
+        return;
+    }
+
     const existingItem = cart.find(item => item.id === productId);
     
     if (existingItem) {
@@ -181,6 +194,8 @@ function updateCartUI() {
     const cartCount = document.getElementById('cart-count');
     const cartTotal = document.getElementById('cart-total');
     
+    if (!cartItems || !cartCount || !cartTotal) return;
+
     // Update cart count
     cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
     
@@ -217,6 +232,7 @@ function updateCartUI() {
 // Toggle cart sidebar
 function toggleCart() {
     const cartSidebar = document.getElementById('cart-sidebar');
+    if (!cartSidebar) return;
     cartSidebar.classList.toggle('active');
 }
 
@@ -274,7 +290,11 @@ function saveCart() {
 function loadCart() {
     const savedCart = localStorage.getItem('bigbrickguy_cart');
     if (savedCart) {
-        cart = JSON.parse(savedCart);
+        try {
+            cart = JSON.parse(savedCart);
+        } catch (e) {
+            cart = [];
+        }
         updateCartUI();
     }
 }
@@ -290,10 +310,14 @@ function loadSettings() {
 
 // Listen for product updates from admin panel
 window.addEventListener('storage', (e) => {
-    if (e.key === 'bigbrickguy_products_sync') {
-        const updatedProducts = JSON.parse(e.newValue);
-        products = updatedProducts;
-        loadProducts(currentFilter);
+    if (e.key === 'bigbrickguy_products_sync' && e.newValue) {
+        try {
+            const updatedProducts = JSON.parse(e.newValue);
+            products = updatedProducts;
+            loadProducts(currentFilter);
+        } catch (err) {
+            // ignore invalid JSON
+        }
     }
 });
 
