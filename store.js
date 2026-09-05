@@ -24,6 +24,7 @@ function loadProductsFromAdmin() {
                 category: "superhero",
                 price: 24.99,
                 description: "Custom Batman & Superman minifigures with accessories",
+                image: null,
                 emoji: "🦸"
             },
             {
@@ -32,6 +33,7 @@ function loadProductsFromAdmin() {
                 category: "fantasy",
                 price: 19.99,
                 description: "Fantasy warrior with dragon armor and sword",
+                image: null,
                 emoji: "🐉"
             },
             {
@@ -40,6 +42,7 @@ function loadProductsFromAdmin() {
                 category: "superhero",
                 price: 15.99,
                 description: "Black belt ninja with authentic weapons",
+                image: null,
                 emoji: "🥷"
             },
             {
@@ -48,6 +51,7 @@ function loadProductsFromAdmin() {
                 category: "fantasy",
                 price: 22.99,
                 description: "Powerful wizard with staff and spellbook",
+                image: null,
                 emoji: "🧙"
             },
             {
@@ -56,6 +60,7 @@ function loadProductsFromAdmin() {
                 category: "custom",
                 price: 18.99,
                 description: "Unique pirate captain with custom details",
+                image: null,
                 emoji: "🏴‍☠️"
             },
             {
@@ -64,6 +69,7 @@ function loadProductsFromAdmin() {
                 category: "custom",
                 price: 21.99,
                 description: "Futuristic astronaut with advanced suit",
+                image: null,
                 emoji: "🧑‍🚀"
             },
             {
@@ -72,6 +78,7 @@ function loadProductsFromAdmin() {
                 category: "fantasy",
                 price: 20.99,
                 description: "Armored knight with sword and shield",
+                image: null,
                 emoji: "🛡️"
             },
             {
@@ -80,6 +87,7 @@ function loadProductsFromAdmin() {
                 category: "superhero",
                 price: 29.99,
                 description: "3-pack of popular superheroes",
+                image: null,
                 emoji: "🦹"
             }
         ];
@@ -102,8 +110,21 @@ function loadProducts(category) {
     filteredProducts.forEach(product => {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
+        
+        // Create image element - show uploaded image or fallback to emoji
+        let imageHTML = '';
+        if (product.image) {
+            imageHTML = `<img src="${product.image}" alt="${product.name}">`;
+        } else {
+            imageHTML = `<span>${product.emoji}</span>`;
+        }
+        
+        const productImageClass = product.image ? 'product-image' : 'product-image emoji-only';
+        
         productCard.innerHTML = `
-            <div class="product-image">${product.emoji}</div>
+            <div class="${productImageClass}">
+                ${imageHTML}
+            </div>
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
                 <div class="product-category">${product.category}</div>
@@ -236,12 +257,7 @@ function checkout() {
     
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-    // Open seller's eBay page in a new tab so the buyer can complete the purchase there
-    const ebayUrl = 'https://www.ebay.com/usr/jus_527362';
-    const win = window.open(ebayUrl, '_blank');
-    if (win) try { win.opener = null; } catch (e) { /* ignore */ }
-
+    
     // Create order object
     const order = {
         id: Date.now(),
@@ -268,7 +284,7 @@ function checkout() {
     // Notify admin panel
     localStorage.setItem('bigbrickguy_order_completed', JSON.stringify(order));
 
-    alert(`Thank you for your order!\n\nItems: ${itemCount}\nTotal: $${total.toFixed(2)}\n\nWe've opened the seller's eBay page so you can complete the purchase there.`);
+    alert(`Thank you for your order!\n\nItems: ${itemCount}\nTotal: $${total.toFixed(2)}\n\nWe'll contact you soon to finalize your custom order.`);
     
     // Clear cart after checkout
     cart = [];
