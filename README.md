@@ -74,6 +74,11 @@ Prefer to sell through eBay? At checkout, you can find my eBay profile here:
 
 [eBay — jus_527362](https://www.ebay.com/usr/jus_527362)
 
+
+Buy on eBay:
+
+[![Buy on eBay](https://img.shields.io/badge/Buy%20on-eBay-FF5722?style=for-the-badge&logo=ebay&logoColor=white)](https://www.ebay.com/usr/jus_527362)
+
 ---
 
 **Get started by creating an `images` folder and adding your first minifigure photo!**
