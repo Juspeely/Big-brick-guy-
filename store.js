@@ -16,82 +16,12 @@ function loadProductsFromAdmin() {
     if (adminProducts) {
         products = JSON.parse(adminProducts);
     } else {
-        // Default products if none in admin
-        products = [
-            {
-                id: 1,
-                name: "Superhero Bundle",
-                category: "superhero",
-                price: 24.99,
-                description: "Custom Batman & Superman minifigures with accessories",
-                image: null,
-                emoji: "🦸"
-            },
-            {
-                id: 2,
-                name: "Dragon Master",
-                category: "fantasy",
-                price: 19.99,
-                description: "Fantasy warrior with dragon armor and sword",
-                image: null,
-                emoji: "🐉"
-            },
-            {
-                id: 3,
-                name: "Ninja Warrior",
-                category: "superhero",
-                price: 15.99,
-                description: "Black belt ninja with authentic weapons",
-                image: null,
-                emoji: "🥷"
-            },
-            {
-                id: 4,
-                name: "Wizard Collection",
-                category: "fantasy",
-                price: 22.99,
-                description: "Powerful wizard with staff and spellbook",
-                image: null,
-                emoji: "🧙"
-            },
-            {
-                id: 5,
-                name: "Custom Pirate",
-                category: "custom",
-                price: 18.99,
-                description: "Unique pirate captain with custom details",
-                image: null,
-                emoji: "🏴‍☠️"
-            },
-            {
-                id: 6,
-                name: "Space Explorer",
-                category: "custom",
-                price: 21.99,
-                description: "Futuristic astronaut with advanced suit",
-                image: null,
-                emoji: "🧑‍🚀"
-            },
-            {
-                id: 7,
-                name: "Medieval Knight",
-                category: "fantasy",
-                price: 20.99,
-                description: "Armored knight with sword and shield",
-                image: null,
-                emoji: "🛡️"
-            },
-            {
-                id: 8,
-                name: "Superhero Pack",
-                category: "superhero",
-                price: 29.99,
-                description: "3-pack of popular superheroes",
-                image: null,
-                emoji: "🦹"
-            }
-        ];
-    }
+    
+            
+
+            
+        
+    
     // Render products using the current filter
     loadProducts(currentFilter);
 }
